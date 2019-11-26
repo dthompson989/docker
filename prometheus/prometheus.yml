@@ -6,8 +6,10 @@ global:
   external_labels:
     monitor: 'codelab-monitor'
 
-# A scrape configuration containing exactly one endpoint to scrape:
-# Here it's Prometheus itself.
+rule_files:
+  # Use this file as a set of rules to pre calculate some data to use in time series charts
+  - 'prometheus.rules.yml'
+
 scrape_configs:
   # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
   - job_name: 'prometheus'
@@ -15,5 +17,18 @@ scrape_configs:
     # Override the global default and scrape targets from this job every 5 seconds.
     scrape_interval: 5s
 
+    # Monitor itself . . . because why not?
     static_configs:
       - targets: ['localhost:9090']
+        labels:
+          group: 'self'
+
+  # The job name for the 2 Debian servers created
+  - job_name: 'containers'
+
+    scrape_interval: 5s
+
+    static_configs:
+      - targets: ['localhost:8080','localhost:8081']
+        labels:
+          group: 'local-containers'
