@@ -23,12 +23,12 @@ scrape_configs:
         labels:
           group: 'self'
 
-  # The job name for the 2 Debian servers created
+  # The job name for the node web servers created created
   - job_name: 'containers'
 
     scrape_interval: 5s
 
     static_configs:
-      - targets: ['localhost:8080','localhost:8081']
+      - targets: ['localhost:8080']
         labels:
           group: 'local-containers'
